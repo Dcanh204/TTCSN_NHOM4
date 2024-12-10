@@ -4,10 +4,15 @@
  */
 package View;
 
+import DAO.CaPheDAO;
 import DAO.FileTypeFiler;
+import Model.CaPhe;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 
 
@@ -21,7 +26,7 @@ public class ThucDonJPanel extends javax.swing.JPanel {
     /**
      * Creates new form ThucDonJPanel
      */
-    String anh = "";
+    private byte[] anh;
     public ThucDonJPanel() {
         initComponents();
         jlbAnhDoUong.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -50,8 +55,8 @@ public class ThucDonJPanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jtfTenCaPhe = new javax.swing.JTextField();
+        jtfDonGia = new javax.swing.JTextField();
         jComboBox2 = new javax.swing.JComboBox<>();
         btnThemVaoThucDon = new javax.swing.JButton();
         jlbHinhAnhCaPheMoi = new javax.swing.JLabel();
@@ -140,9 +145,9 @@ public class ThucDonJPanel extends javax.swing.JPanel {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(JDialogThemCaPheMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfTenCaPhe, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(JDialogThemCaPheMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                .addComponent(jtfDonGia, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                                 .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(30, 30, 30)
                         .addGroup(JDialogThemCaPheMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,11 +170,11 @@ public class ThucDonJPanel extends javax.swing.JPanel {
                         .addGap(40, 40, 40)
                         .addGroup(JDialogThemCaPheMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtfTenCaPhe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addGroup(JDialogThemCaPheMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtfDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27)
                         .addGroup(JDialogThemCaPheMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -527,11 +532,26 @@ public class ThucDonJPanel extends javax.swing.JPanel {
         if(result == JFileChooser.APPROVE_OPTION ){
             File file = jFileChooser.getSelectedFile();
             jlbHinhAnhCaPheMoi.setIcon(new ImageIcon(file.getAbsolutePath()));
-            String anh = file.getAbsolutePath().replace("/", "//");
+            try {
+            FileInputStream fis = new FileInputStream(file);
+            anh = new byte[(int) file.length()]; 
+            fis.read(anh);  // Đọc nội dung file vào mảng byte
+            fis.close();  // Đảm bảo đóng stream sau khi sử dụng
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         }
     }//GEN-LAST:event_btnChonAnhActionPerformed
 
     private void btnThemVaoThucDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVaoThucDonActionPerformed
+        String tenCP = jtfTenCaPhe.getText();
+        int Gia = Integer.parseInt(jtfDonGia.getText());
+        CaPhe cp = new CaPhe("CP003","DM01", tenCP, anh, Gia);
+        CaPheDAO.insert(cp);
+        
+        if(cp.getMaCaPhe().equalsIgnoreCase("CP003")){
+            JOptionPane.showMessageDialog(null, "Thêm cà phê thất bại. Vui lòng thử lại.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_btnThemVaoThucDonActionPerformed
 
@@ -572,11 +592,11 @@ public class ThucDonJPanel extends javax.swing.JPanel {
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel jlbAnhDoUong;
     private javax.swing.JLabel jlbHinhAnhCaPheMoi;
+    private javax.swing.JTextField jtfDonGia;
+    private javax.swing.JTextField jtfTenCaPhe;
     // End of variables declaration//GEN-END:variables
 }
