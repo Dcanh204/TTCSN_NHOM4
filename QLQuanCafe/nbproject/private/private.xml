@@ -5,8 +5,6 @@
         <group>
             <file>file:/C:/BTL_TTCSN/QLQuanCafe/src/DAO/CaPheDAO.java</file>
             <file>file:/C:/BTL_TTCSN/QLQuanCafe/src/Main/Main.java</file>
-            <file>file:/C:/BTL_TTCSN/QLQuanCafe/src/ConnectDB/JDBCConnect.java</file>
-            <file>file:/C:/BTL_TTCSN/QLQuanCafe/src/DAO/FileTypeFiler.java</file>
             <file>file:/C:/BTL_TTCSN/QLQuanCafe/src/Model/CaPhe.java</file>
             <file>file:/C:/BTL_TTCSN/QLQuanCafe/src/View/ThucDonJPanel.java</file>
         </group>
