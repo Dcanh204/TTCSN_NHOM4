@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
+
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,6 +17,13 @@ public class CaPhe {
     public CaPhe() {
     }
 
+    public CaPhe(String maCaPhe, String tenCaPhe, byte[] anhMinhHoa, int donGia) {
+        this.maCaPhe = maCaPhe;
+        this.tenCaPhe = tenCaPhe;
+        this.anhMinhHoa = anhMinhHoa;
+        this.donGia = donGia;
+    }
+    
     public CaPhe(String maCaPhe, String maDanhMuc, String tenCaPhe, byte[] anhMinhHoa, int donGia) {
         this.maCaPhe = maCaPhe;
         this.maDanhMuc = maDanhMuc;
@@ -56,6 +62,10 @@ public class CaPhe {
 
     public void setAnhMinhHoa(byte[] anhMinhHoa) {
         this.anhMinhHoa = anhMinhHoa;
+    }
+    
+    public ImageIcon getImage(){
+        return new ImageIcon( new ImageIcon(anhMinhHoa).getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH ));
     }
 
     public int getDonGia() {

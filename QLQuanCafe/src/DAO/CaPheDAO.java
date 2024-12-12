@@ -24,7 +24,7 @@ public class CaPheDAO {
             pre = conn.prepareStatement(sql);
             res = pre.executeQuery();
             while(res.next()){
-                CaPhe cp = new CaPhe(res.getString("MACAPHE") , res.getString("MADANHMUC"), res.getString("TENCAPHE"), res.getBytes("ANHMINHHOA"), res.getInt("DONGIA"));
+                CaPhe cp = new CaPhe(res.getString("MACAPHE"), res.getString("TENCAPHE"), res.getBytes("ANHMINHHOA"), res.getInt("DONGIA"));
                 cpList.add(cp);
             }
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class CaPheDAO {
         }
         return cpList;
     }
-    public static void insert(CaPhe cp){
+    public static boolean insert(CaPhe cp){
         Connection conn = null;
         PreparedStatement pre = null;
         try {
@@ -60,19 +60,11 @@ public class CaPheDAO {
             pre.setBytes(4, cp.getAnhMinhHoa());
             pre.setInt(5,cp.getDonGia());
             
-            int rowsAffected = pre.executeUpdate(); // Kiểm tra số dòng bị ảnh hưởng
-
-            if (rowsAffected > 0) {
-                // Thêm thành công
-                JOptionPane.showMessageDialog(null, "Thêm cà phê thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // Thêm thất bại
-                JOptionPane.showMessageDialog(null, "Thêm cà phê thất bại. Vui lòng thử lại.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            }
-            
-      
+            pre.executeUpdate(); 
+            return true;
         } catch (SQLException ex) {
             System.out.println("Lỗi: " + ex);
+            return false;
         } finally {
             if (pre != null) {
                 try {
@@ -89,8 +81,7 @@ public class CaPheDAO {
                 }
             }
         }
+        
     }
-    
-   
      
 }
